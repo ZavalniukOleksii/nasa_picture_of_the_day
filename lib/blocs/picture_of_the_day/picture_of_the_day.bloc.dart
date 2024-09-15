@@ -1,23 +1,23 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:starlab_tech_test/apis/apis/picture_of_the_day.api.dart';
-import 'package:starlab_tech_test/apis/interfaces/picture_of_the_day.api_interface.dart';
 import 'package:starlab_tech_test/models/picture_of_the_day.model.dart';
+import 'package:starlab_tech_test/repos/interfaces/picture_of_the_day.repo_interface.dart';
 
 part 'picture_of_the_day.event.dart';
 part 'picture_of_the_day.state.dart';
 
 class PictureOfTheDayBloc
     extends Bloc<PictureOfTheDayEvent, PictureOfTheDayState> {
-  final PictureOfTheDayApiInterface _pictureOfTheDayApi;
+  final PictureOfTheDayRepoInterface _pictureOfTheDayRepo;
 
-  PictureOfTheDayBloc(this._pictureOfTheDayApi)
+  PictureOfTheDayBloc(this._pictureOfTheDayRepo)
       : super(PictureOfTheDayInitial()) {
     on<PictureOfTheDayRequest>((event, emit) async {
       /// add logs for possible debugging
       emit(PictureOfTheDayLoading());
 
       try {
-        final pictureOfTheDay = await _pictureOfTheDayApi.getPictureOfTheDay();
+        final pictureOfTheDay = await _pictureOfTheDayRepo.getPictureOfTheDay();
 
         if (pictureOfTheDay.mediaType == 'video') {
           emit(PictureOfTheDayVideoReady(pictureOfTheDay: pictureOfTheDay));

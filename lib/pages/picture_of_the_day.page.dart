@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:starlab_tech_test/apis/interfaces/picture_of_the_day.api_interface.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:starlab_tech_test/blocs/picture_of_the_day/picture_of_the_day.bloc.dart';
+import 'package:starlab_tech_test/pages/fullsize_picture.page.dart';
+import 'package:starlab_tech_test/repos/interfaces/picture_of_the_day.repo_interface.dart';
 import 'package:video_player/video_player.dart';
 
 class PictureOfTheDayPage extends StatefulWidget {
@@ -14,17 +16,14 @@ class PictureOfTheDayPage extends StatefulWidget {
 
 class _MyHomePageState extends State<PictureOfTheDayPage> {
   late final VideoPlayerController _videoController;
+
   final _pictureOfTheDayBloc = PictureOfTheDayBloc(
-    GetIt.instance.get<PictureOfTheDayApiInterface>(),
+    GetIt.instance.get<PictureOfTheDayRepoInterface>(),
   );
 
   @override
   void initState() {
     _pictureOfTheDayBloc.add(PictureOfTheDayRequest());
-    _videoController
-      ..setLooping(true)
-      ..initialize()
-      ..play();
 
     super.initState();
   }
@@ -49,15 +48,33 @@ class _MyHomePageState extends State<PictureOfTheDayPage> {
               );
             }
             if (state is PictureOfTheDayImageReady) {
+              final pictureOfTheDay = state.pictureOfTheDay;
+
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image.network(
-                      state.pictureOfTheDay.url,
+                      pictureOfTheDay.url,
                       height: MediaQuery.of(context).size.height * 0.5,
                     ),
-                    Text(state.pictureOfTheDay.title),
+                    const SizedBox(height: 8),
+                    Text(pictureOfTheDay.title),
+                    const SizedBox(height: 16),
+                    OutlinedButton(
+                      onPressed: () {
+                        /// this should be handled by the navigator
+                        Navigator.of(context).push(
+                          PageTransition(
+                            child:
+                                FullSizeImagePage(url: pictureOfTheDay.hdurl),
+                            type: PageTransitionType.fade,
+                            duration: const Duration(milliseconds: 350),
+                          ),
+                        );
+                      },
+                      child: const Text('Open a full image in a new page'),
+                    ),
                   ],
                 ),
               );
@@ -65,7 +82,11 @@ class _MyHomePageState extends State<PictureOfTheDayPage> {
             if (state is PictureOfTheDayVideoReady) {
               _videoController = VideoPlayerController.networkUrl(
                 Uri.parse(state.pictureOfTheDay.url),
-              );
+              )
+                ..setLooping(true)
+                ..initialize()
+                ..play();
+
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

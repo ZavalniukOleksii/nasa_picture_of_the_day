@@ -40,6 +40,10 @@ dependencies:
   http: ^1.2.2
   equatable: ^2.0.3
   video_player: ^2.9.1
+  page_transition: ^2.1.0
+  build_runner: ^2.4.12
+  mockito: ^5.4.4
+  bloc_test: ^9.1.7
 
 dev_dependencies:
   flutter_test:

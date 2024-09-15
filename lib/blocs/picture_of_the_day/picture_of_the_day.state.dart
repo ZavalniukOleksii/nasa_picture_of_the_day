@@ -1,13 +1,22 @@
 part of 'picture_of_the_day.bloc.dart';
 
-abstract class PictureOfTheDayState {}
+/// should be done either with freezed or sealed class.
+/// picking equatable for simplicity
+///
+abstract class PictureOfTheDayState extends Equatable {}
 
 class PictureOfTheDayInitial extends PictureOfTheDayState {
   PictureOfTheDayInitial();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class PictureOfTheDayLoading extends PictureOfTheDayState {
   PictureOfTheDayLoading();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class PictureOfTheDayImageReady extends PictureOfTheDayState {
@@ -15,6 +24,9 @@ class PictureOfTheDayImageReady extends PictureOfTheDayState {
   PictureOfTheDayImageReady({
     required this.pictureOfTheDay,
   });
+
+  @override
+  List<Object?> get props => [pictureOfTheDay];
 }
 
 class PictureOfTheDayVideoReady extends PictureOfTheDayState {
@@ -22,6 +34,9 @@ class PictureOfTheDayVideoReady extends PictureOfTheDayState {
   PictureOfTheDayVideoReady({
     required this.pictureOfTheDay,
   });
+
+  @override
+  List<Object?> get props => [pictureOfTheDay];
 }
 
 class PictureOfTheDayFailed extends PictureOfTheDayState {
@@ -29,4 +44,7 @@ class PictureOfTheDayFailed extends PictureOfTheDayState {
   PictureOfTheDayFailed({
     required this.message,
   });
+
+  @override
+  List<Object?> get props => [message];
 }
