@@ -58,7 +58,8 @@ void main() {
     });
 
     blocTest<PictureOfTheDayBloc, PictureOfTheDayState>(
-      'emits [PictureOfTheDayLoading, PictureOfTheDayImageReady] when PictureOfTheDayRequest is added and image data is returned',
+      'emits [PictureOfTheDayLoading, PictureOfTheDayImageReady] when '
+      'PictureOfTheDayRequest is added and image data is returned',
       build: () {
         when(mockPictureOfTheDayRepo.getPictureOfTheDay())
             .thenAnswer((_) async => pictureOfTheDayImage);
@@ -75,7 +76,8 @@ void main() {
     );
 
     blocTest<PictureOfTheDayBloc, PictureOfTheDayState>(
-      'emits [PictureOfTheDayLoading, PictureOfTheDayVideoReady] when PictureOfTheDayRequest is added and video data is returned',
+      'emits [PictureOfTheDayLoading, PictureOfTheDayVideoReady] when '
+      'PictureOfTheDayRequest is added and video data is returned',
       build: () {
         when(mockPictureOfTheDayRepo.getPictureOfTheDay())
             .thenAnswer((_) async => pictureOfTheDayVideo);
@@ -92,7 +94,8 @@ void main() {
     );
 
     blocTest<PictureOfTheDayBloc, PictureOfTheDayState>(
-      'emits [PictureOfTheDayLoading, PictureOfTheDayFailed] when PictureOfTheDayRequest is added and an exception is thrown',
+      'emits [PictureOfTheDayLoading, PictureOfTheDayFailed] when '
+      'PictureOfTheDayRequest is added and an exception is thrown',
       build: () {
         when(mockPictureOfTheDayRepo.getPictureOfTheDay())
             .thenThrow(Exception('Failed to fetch picture of the day'));
